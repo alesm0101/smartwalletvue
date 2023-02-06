@@ -1,40 +1,43 @@
 <script setup>
-import EventCard from "@/components/EventCard.vue";
-import EventServices from "@/services/EventServices.js";
-import { ref, onMounted, watchEffect, computed } from "vue";
+import EventCard from '@/components/EventCard.vue'
+import { onMounted, watchEffect, computed } from 'vue'
+import { useStore } from 'vuex'
+
+const store = useStore()
 
 const props = defineProps({
   page: {
+    // from routing
     type: Number,
     required: true,
   },
-});
+})
 
-const events = ref(null);
-const totalEvents = ref(0);
+const events = computed(() => {
+  // NEW USING STORE
+  return store.state.events
+})
 
 const hasNextPage = computed(() => {
   // First, calculate total pages   // 2 is events per page
-  const totalPages = Math.ceil(totalEvents.value / 2);
+  const totalPages = Math.ceil(store.state.totalEvents / 2)
   // Then check to see if the current page is less than the total pages.
-  return props.page < totalPages;
-});
+  return props.page < totalPages
+})
 
 onMounted(() => {
+  // store.dispatch('fetchEvents', props.page)
   watchEffect(() => {
-    events.value = null;
-    EventServices.getEvents(2, props.page)
-      .then((response) => {
-        // NEW
-        totalEvents.value = response.headers["x-total-count"];
-        events.value = response.data;
+    // NEW USING STORE AND PROPS
+    store.dispatch('fetchEvents', props.page).catch((error) => {
+      this.$router.push({
+        name: 'ErrorDisplay',
+        params: { error: error },
       })
-      .catch((error) => {
-        console.log(error);
-      });
-  });
-  console.log("props.page", typeof props.page);
-});
+    })
+    console.log('props.page', typeof props.page)
+  })
+})
 </script>
 
 <!-- <script>

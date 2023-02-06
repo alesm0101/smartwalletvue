@@ -13,35 +13,48 @@
 </template>
 
 <script>
-import EventService from "@/services/EventServices.js";
 export default {
-  name: "event-layout",
+  name: 'event-layout',
   props: {
     id: { required: true },
   },
   data() {
     return {
-      event: null,
-    };
+      // event: null,
+    }
   },
+  /* TODO erros
   created() {
-    EventService.getEvent(this.id)
+    EventServices.getEvent(this.id)
       .then((response) => {
-        this.event = response.data;
+        this.event = response.data
       })
       .catch((error) => {
-        console.log("error-----> ", error);
+        console.log('error-----> ', error)
         if (error.response && error.response.status == 404) {
           // /404/event
           this.$router.push({
-            name: "404Resource",
-            params: { resource: "event" },
-          });
+            name: '404Resource',
+            params: { resource: 'event' },
+          })
         } else {
           // /network-error
-          this.$router.push({ name: "NetworkError" });
+          this.$router.push({ name: 'NetworkError' })
         }
-      });
+      })
+  }, */
+  created() {
+    this.$store.dispatch('fetchEvent', this.id).catch((error) => {
+      this.$router.push({
+        name: 'ErrorDisplay',
+        params: { error: error },
+      })
+    })
   },
-};
+  computed: {
+    event() {
+      return this.$store.state.event
+    },
+  },
+}
 </script>

@@ -29,6 +29,16 @@
       "date": "July 22, 2022",
       "time": "11:00",
       "organizer": "Carey Wales"
+    },
+    {
+      "id": "6ead7dc2-7552-44d0-ae5a-445eb3bacf07",
+      "category": "housing",
+      "title": "New one",
+      "description": "Desc for new event",
+      "location": "NY",
+      "date": "March 19, 2018",
+      "time": "20:00",
+      "organizer": "Adam Jahr"
     }
   ]
 }
