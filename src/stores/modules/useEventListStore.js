@@ -49,7 +49,7 @@ export const useEventListStore = defineStore('eventList', {
         .then(() => {
           this.events = this.events.filter((event) => event.id != eventId)
         })
-        .catch((error) => { 
+        .catch((error) => {
           throw error // <--- throw error
         })
     },

@@ -1,7 +1,10 @@
 <script setup>
 import EventCard from '@/components/EventCard.vue'
-import { onMounted, watchEffect, computed } from 'vue'
+import { watchEffect, computed } from 'vue'
 import { useEventListStore } from '@/stores/modules/useEventListStore.js'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const store = useEventListStore()
 
@@ -25,18 +28,16 @@ const hasNextPage = computed(() => {
   return props.page < totalPages
 })
 
-onMounted(() => {
-  // store.dispatch('fetchEvents', props.page)
-  watchEffect(() => {
-    // NEW USING STORE AND PROPS
-    store.fetchEvents( props.page).catch((error) => {
-      this.$router.push({
-        name: 'ErrorDisplay',
-        params: { error: error },
-      })
+watchEffect(() => {
+  // watching page here:
+  // NEW USING STORE AND PROPS
+  store.fetchEvents(12).catch((error) => {
+    router.push({
+      name: 'ErrorDisplay',
+      params: { error: error },
     })
-    console.log('props.page', typeof props.page)
   })
+  console.log('props.page', typeof props.page)
 })
 </script>
 

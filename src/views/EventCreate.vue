@@ -1,9 +1,9 @@
 <template>
   <h1>Create an event</h1>
-
   <div class="form-container">
     <form @submit.prevent="onSubmit">
       <label>Select a category: </label>
+      <p>Organized by: {{ userStore.userInfo.name }}</p>
       <select v-model="event.category">
         <option
           v-for="option in categories"
