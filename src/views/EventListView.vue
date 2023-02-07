@@ -1,70 +1,52 @@
-<script setup>
+<script>
 import EventCard from '@/components/EventCard.vue'
-import { onMounted, watchEffect, computed } from 'vue'
 import { useEventListStore } from '@/stores/modules/useEventListStore.js'
+// import { watchEffect } from 'vue'
 
-const store = useEventListStore()
-
-const props = defineProps({
-  page: {
-    // from routing
-    type: Number,
-    required: true,
-  },
-})
-
-const events = computed(() => {
-  // NEW USING STORE
-  return store.events
-})
-
-const hasNextPage = computed(() => {
-  // First, calculate total pages   // 2 is events per page
-  const totalPages = Math.ceil(store.totalEvents / 2)
-  // Then check to see if the current page is less than the total pages.
-  return props.page < totalPages
-})
-
-onMounted(() => {
-  // store.dispatch('fetchEvents', props.page)
-  watchEffect(() => {
-    // NEW USING STORE AND PROPS
-    store.fetchEvents( props.page).catch((error) => {
-      this.$router.push({
-        name: 'ErrorDisplay',
-        params: { error: error },
-      })
-    })
-    console.log('props.page', typeof props.page)
-  })
-})
-</script>
-
-<!-- <script>
-import EventCard from '@/components/EventCard.vue'
-import EventService from '@/services/EventServices.js'
 export default {
   name: 'EventList',
-  props: [ 'page' ],
+  props: ['page'],
   components: {
-    EventCard
+    EventCard,
   },
   data() {
     return {
-      events: null
+      eventListStore: useEventListStore(),
     }
   },
-  created() {
-    EventService.getEvents()
-      .then(response => {
-        this.events = response.data
+  mounted() {
+    this.getEvents()
+  },
+  watch: {
+    page(value, oldValue) {
+      console.log(value, oldValue)
+      this.getEvents()
+    },
+  },
+  computed: {
+    events() {
+      return this.eventListStore.events
+    },
+    hasNextPage() {
+      // First, calculate total pages   // 2 is events per page
+      const totalPages = Math.ceil(this.eventListStore.totalEvents / 2)
+      // Then check to see if the current page is less than the total pages.
+      return this.page < totalPages
+    },
+  },
+  methods: {
+    getEvents() {
+      this.eventListStore.fetchEvents(this.page).catch((error) => {
+        this.$router.push({
+          name: 'ErrorDisplay',
+          params: { error: error },
+        })
       })
-      .catch(error => {
-        console.log(error)
-      })
-  }
+      console.log('page', typeof this.page)
+    },
+  },
 }
-</script> -->
+</script>
 
 <template>
   <h1>Events</h1>
@@ -83,7 +65,7 @@ export default {
       v-if="hasNextPage"
       >Next Page</router-link
     >
-    <p>Page {{ props.page }}</p>
+    <p>Page {{ page }}</p>
   </div>
 </template>
 

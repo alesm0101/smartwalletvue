@@ -4,26 +4,26 @@
 
 <script>
 export default {
-  name: "event-edit",
-  props: ["event"],
+  name: 'event-edit',
+  props: ['event'],
   data: () => {
     return {
       unsavedChanges: true,
-    };
+    }
   },
   beforeRouteLeave(routeTo, routeFrom, next) {
     if (this.unsavedChanges) {
       const answer = window.confirm(
-        "Do you really want to leave? You have unsaved changes!"
-      );
+        'Do you really want to leave? You have unsaved changes!'
+      )
       if (answer) {
-        next(); // <-- Confirms the navigation
+        next() // <-- Confirms the navigation
       } else {
-        next(false); // <-- Cancels the navigation
+        next(false) // <-- Cancels the navigation
       }
     } else {
-      next(); // <-- Confirms the navigation
+      next() // <-- Confirms the navigation
     }
   },
-};
+}
 </script>
