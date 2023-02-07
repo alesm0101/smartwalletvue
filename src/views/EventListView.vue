@@ -40,32 +40,6 @@ onMounted(() => {
 })
 </script>
 
-<!-- <script>
-import EventCard from '@/components/EventCard.vue'
-import EventService from '@/services/EventServices.js'
-export default {
-  name: 'EventList',
-  props: [ 'page' ],
-  components: {
-    EventCard
-  },
-  data() {
-    return {
-      events: null
-    }
-  },
-  created() {
-    EventService.getEvents()
-      .then(response => {
-        this.events = response.data
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }
-}
-</script> -->
-
 <template>
   <h1>Events</h1>
   <div class="events">

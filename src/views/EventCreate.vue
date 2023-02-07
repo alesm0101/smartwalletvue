@@ -43,70 +43,57 @@
     </form>
   </div>
 </template>
-<script>
+<script setup>
 import { v4 as uuidv4 } from 'uuid'
 import { useEventListStore } from '@/stores/modules/useEventListStore.js'
 import { useUserStore } from '@/stores/modules/user.js'
+import { reactive } from 'vue'
+import { useRouter } from 'vue-router'
 
-export default {
-  data() {
-    return {
-      categories: [
-        'sustainability',
-        'nature',
-        'animal welfare',
-        'housing',
-        'education',
-        'food',
-        'community',
-      ],
-      event: {
-        id: '',
-        category: '',
-        title: '',
-        description: '',
-        location: '',
-        date: '',
-        time: '',
-        organizer: '',
-      },
-      eventListStore: useEventListStore(),
-      useUserStore: useUserStore(),
-    }
-  },
-  methods: {
-    // onSubmit() {
-    //   this.event.id = uuidv4()
-    //   this.event.organizer = this.$store.state.user.userInfo.name
-    //   console.log('Event:', this.event)
-    // },
-    onSubmit() {
-      const event = {
-        ...this.event,
-        id: uuidv4(),
-        organizer: this.useUserStore.userInfo.name,
-      }
-      console.log(event)
-      this.eventListStore
-        .createEvent(event)
-        .then(() => {
-          this.$router.push({
-            name: 'EventDetails',
-            params: { id: event.id },
-          })
-        })
-        .catch((error) => {
-          this.$router.push({
-            name: 'ErrorDisplay',
-            params: { error: error },
-          })
-        })
-    },
-  },
-  // computed: {
-  //   user() {
-  //     return this.$store.state.user.userInfo.name
-  //   },
-  // },
+const router = useRouter()
+const categories = [
+  'sustainability',
+  'nature',
+  'animal welfare',
+  'housing',
+  'education',
+  'food',
+  'community',
+]
+const event = reactive({
+  id: '',
+  category: '',
+  title: '',
+  description: '',
+  location: '',
+  date: '',
+  time: '',
+  organizer: '',
+})
+
+const eventListStore = useEventListStore()
+const userStore = useUserStore()
+
+const onSubmit = () => {
+  const event = {
+    ...event.value,
+    id: uuidv4(),
+    organizer: userStore.userInfo.name,
+  }
+  console.log(event)
+  eventListStore
+    .createEvent(event)
+    .then(() => {
+      router.push({
+        name: 'EventDetails',
+        params: { id: event.id },
+      })
+    })
+    .catch((error) => {
+      router.push({
+        name: 'ErrorDisplay',
+        params: { error: error },
+      })
+    })
 }
 </script>

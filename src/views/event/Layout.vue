@@ -12,52 +12,25 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useEventListStore } from '@/stores/modules/useEventListStore.js'
+import { onMounted } from 'vue'
+import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 
-export default {
-  name: 'event-layout',
-  props: {
-    id: { required: true },
-  },
-  data() {
-    return {
-      eventListstore: useEventListStore(),
-      // event: null,
-    }
-  },
-  /* TODO erros
-  created() {
-    EventServices.getEvent(this.id)
-      .then((response) => {
-        this.event = response.data
-      })
-      .catch((error) => {
-        console.log('error-----> ', error)
-        if (error.response && error.response.status == 404) {
-          // /404/event
-          this.$router.push({
-            name: '404Resource',
-            params: { resource: 'event' },
-          })
-        } else {
-          // /network-error
-          this.$router.push({ name: 'NetworkError' })
-        }
-      })
-  }, */
-  mounted() {
-    this.eventListstore.fetchEvent(this.id).catch((error) => {
-      this.$router.push({
-        name: 'ErrorDisplay',
-        params: { error: error },
-      })
+const props = defineProps({
+  id: { required: true },
+})
+const eventListstore = useEventListStore()
+const router = useRouter()
+
+onMounted(() => {
+  eventListstore.fetchEvent(props.id).catch((error) => {
+    router.push({
+      name: 'ErrorDisplay',
+      params: { error: error },
     })
-  },
-  computed: {
-    event() {
-      return this.eventListstore.event
-    },
-  },
-}
+  })
+})
+const event = computed(() => eventListstore.event)
 </script>

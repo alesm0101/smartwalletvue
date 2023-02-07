@@ -4,18 +4,8 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-});
+})
 </script>
-<!-- <script>
-export default {
-  props: {
-    event: {
-      type: Object,
-      required: true
-    }
-  }
-}
-</script> -->
 
 <template>
   <RouterLink :to="{ name: 'EventDetails', params: { id: event.id } }">

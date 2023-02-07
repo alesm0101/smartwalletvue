@@ -1,14 +1,8 @@
-<!-- <script setup>
-import { RouterLink, RouterView } from "vue-router";
-import { inject } from "vue";
+<script setup>
+// import { RouterLink, RouterView } from "vue-router";
+import { inject } from 'vue'
 
-const _GStore = inject("GStore", "");
-
-</script> -->
-<script>
-export default {
-  inject: ["GStore"],
-};
+const GStore = inject('GStore', '')
 </script>
 
 <template>
@@ -73,7 +67,7 @@ input {
   height: 30px;
   margin-bottom: 24px;
 }
-input[type=text] {
+input[type='text'] {
   padding: 0px 10px;
 }
 input:focus {

@@ -2,28 +2,30 @@
   <p>Edit the event here</p>
 </template>
 
-<script>
-export default {
-  name: "event-edit",
-  props: ["event"],
-  data: () => {
-    return {
-      unsavedChanges: true,
-    };
+<script setup>
+import { ref } from 'vue'
+import { onBeforeRouteLeave } from 'vue-router'
+
+defineProps({
+  event: {
+    type: Object,
+    required: true,
   },
-  beforeRouteLeave(routeTo, routeFrom, next) {
-    if (this.unsavedChanges) {
-      const answer = window.confirm(
-        "Do you really want to leave? You have unsaved changes!"
-      );
-      if (answer) {
-        next(); // <-- Confirms the navigation
-      } else {
-        next(false); // <-- Cancels the navigation
-      }
+})
+const unsavedChanges = ref(true)
+
+onBeforeRouteLeave((routeTo, routeFrom, next) => {
+  if (unsavedChanges.value) {
+    const answer = window.confirm(
+      'Do you really want to leave? You have unsaved changes!'
+    )
+    if (answer) {
+      next() // <-- Confirms the navigation
     } else {
-      next(); // <-- Confirms the navigation
+      next(false) // <-- Cancels the navigation
     }
-  },
-};
+  } else {
+    next() // <-- Confirms the navigation
+  }
+})
 </script>
