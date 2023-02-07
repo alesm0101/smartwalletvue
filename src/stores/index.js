@@ -1,6 +1,6 @@
 import { createStore } from 'vuex'
 import EventServices from '@/services/EventServices.js'
-import user from './modules/user.js'
+import userModule from './modules/user.js'
 
 export default createStore({
   state: {
@@ -9,7 +9,7 @@ export default createStore({
     event: {},
   },
   mutations: {
-    ADD_EVENT(state, payload) {
+    ADD_NEW_EVENT(state, payload) {
       state.events.push(payload)
     },
     SET_EVENTS(state, payload) {
@@ -21,12 +21,16 @@ export default createStore({
     SET_TOTAL_EVENTS(state, payload) {
       state.totalEvents = payload
     },
+    DELETE_EVENT(state, eventId) {
+      state.events = state.events.filter((event) => event.id != eventId)
+    },
   },
   actions: {
     fetchEvent({ commit, state }, id) {
       const existingEvent = state.events.find((event) => event.id == id) // string || number
       if (existingEvent) {
         commit('SET_EVENT', existingEvent)
+        // return Promise.resolve()
       } else {
         return EventServices.getEvent(id)
           .then((response) => {
@@ -49,9 +53,18 @@ export default createStore({
         })
     },
     createEvent({ commit }, event) {
-      EventServices.postEvent(event)
+      return EventServices.postEvent(event)
         .then(() => {
-          commit('ADD_EVENT', event)
+          commit('ADD_NEW_EVENT', event)
+        })
+        .catch((error) => {
+          throw error // <--- throw error
+        })
+    },
+    deleteEvent({ commit }, eventId) {
+      return EventServices.deleteEvent(eventId)
+        .then(() => {
+          commit('DELETE_EVENT', event)
         })
         .catch((error) => {
           throw error // <--- throw error
@@ -59,7 +72,8 @@ export default createStore({
     },
   },
   getters: {
-/*     doneEvents (state) {
+    /*
+    doneEvents (state) {
       return state.events.filter(event => event.done)
     },
     doneEventssCount (state, getters) {
@@ -69,5 +83,5 @@ export default createStore({
       return state.events.find(event => event.id === id)
     } */
   },
-  modules: { user }
+  modules: { user: userModule },
 })
