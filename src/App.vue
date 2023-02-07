@@ -19,7 +19,7 @@ export default {
     <header>
       <div class="wrapper">
         <nav id="nav">
-          <RouterLink to="/">Event</RouterLink> |
+          <RouterLink to="/">Events</RouterLink> |
           <RouterLink :to="{ name: 'about' }">About</RouterLink> |
           <router-link :to="{ name: 'EventCreate' }">Create Event</router-link>
         </nav>

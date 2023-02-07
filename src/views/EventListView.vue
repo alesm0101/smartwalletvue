@@ -1,9 +1,9 @@
 <script setup>
 import EventCard from '@/components/EventCard.vue'
 import { onMounted, watchEffect, computed } from 'vue'
-import { useStore } from 'vuex'
+import { useEventListStore } from '@/stores/modules/useEventListStore.js'
 
-const store = useStore()
+const store = useEventListStore()
 
 const props = defineProps({
   page: {
@@ -15,12 +15,12 @@ const props = defineProps({
 
 const events = computed(() => {
   // NEW USING STORE
-  return store.state.events
+  return store.events
 })
 
 const hasNextPage = computed(() => {
   // First, calculate total pages   // 2 is events per page
-  const totalPages = Math.ceil(store.state.totalEvents / 2)
+  const totalPages = Math.ceil(store.totalEvents / 2)
   // Then check to see if the current page is less than the total pages.
   return props.page < totalPages
 })
@@ -29,7 +29,7 @@ onMounted(() => {
   // store.dispatch('fetchEvents', props.page)
   watchEffect(() => {
     // NEW USING STORE AND PROPS
-    store.dispatch('fetchEvents', props.page).catch((error) => {
+    store.fetchEvents( props.page).catch((error) => {
       this.$router.push({
         name: 'ErrorDisplay',
         params: { error: error },
@@ -67,7 +67,7 @@ export default {
 </script> -->
 
 <template>
-  <h1>Events For Good {{ props.page }}</h1>
+  <h1>Events</h1>
   <div class="events">
     <EventCard v-for="event in events" :key="event.id" :event="event" />
     <router-link
@@ -83,6 +83,7 @@ export default {
       v-if="hasNextPage"
       >Next Page</router-link
     >
+    <p>Page {{ props.page }}</p>
   </div>
 </template>
 

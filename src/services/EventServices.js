@@ -19,6 +19,9 @@ export default {
   postEvent(event) {
     return apiClient.post('/events', event)
   },
+  deleteEvent(eventId) {
+    return apiClient.delete(`/events/${eventId}`)
+  },
 }
 
 // axios.get('http://localhost:3000/events')

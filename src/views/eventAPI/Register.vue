@@ -5,8 +5,8 @@
 
 <script setup>
 // import { watch } from "vue";
-import { useRouter } from "vue-router";
-const router = useRouter();
+import { useRouter } from 'vue-router'
+const router = useRouter()
 //const route = useRoute();
 
 defineProps({
@@ -14,14 +14,14 @@ defineProps({
     type: Object,
     required: true,
   },
-});
+})
 
 const register = () => {
   // call to aPI
   // if register redirect to event details
 
-  router.push({ name: "EventDetails" });
-};
+  router.push({ name: 'EventDetails' })
+}
 
 /* watch(
   () => route.params.id,

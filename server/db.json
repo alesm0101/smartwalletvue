@@ -1,43 +1,33 @@
 {
   "events": [
     {
-      "id": 123,
-      "category": "animal welfare",
-      "title": "Cat Adoption Day",
-      "description": "Find your new feline friend at this event.",
-      "location": "Meow Town",
-      "date": "January 28, 2022",
-      "time": "12:00",
-      "organizer": "Kat Laydee"
+      "id": "1daeb267-5271-4178-9388-c97fba4b33ad",
+      "category": "education",
+      "title": "Javascript Workshop",
+      "description": "Javascript Workshop",
+      "location": "Amsterdam",
+      "date": "12/12/2019",
+      "time": "12",
+      "organizer": "Adam Jahr"
     },
     {
-      "id": 456,
-      "category": "food",
-      "title": "Community Gardening",
-      "description": "Join us as we tend to the community edible plants.",
-      "location": "Flora City",
-      "date": "March 14, 2022",
-      "time": "10:00",
-      "organizer": "Fern Pollin"
+      "id": "0f6c89fb-e694-48d7-8d50-39542d2778ef",
+      "category": "education",
+      "title": "Vue 3",
+      "description": "Vue 3 news",
+      "location": "Amsterdam",
+      "date": "01/05/2019",
+      "time": "08:00",
+      "organizer": "Adam Jahr"
     },
     {
-      "id": 789,
-      "category": "sustainability",
-      "title": "Beach Cleanup",
-      "description": "Help pick up trash along the shore.",
-      "location": "Playa Del Carmen",
-      "date": "July 22, 2022",
-      "time": "11:00",
-      "organizer": "Carey Wales"
-    },
-    {
-      "id": "6ead7dc2-7552-44d0-ae5a-445eb3bacf07",
-      "category": "housing",
-      "title": "New one",
-      "description": "Desc for new event",
-      "location": "NY",
-      "date": "March 19, 2018",
-      "time": "20:00",
+      "id": "d7b58f6b-b62b-415d-bfd7-f2360c2e265d",
+      "category": "community",
+      "title": "Js Conference",
+      "description": "Anual event",
+      "location": "New York",
+      "date": "01/01/2022",
+      "time": "08:00",
       "organizer": "Adam Jahr"
     }
   ]

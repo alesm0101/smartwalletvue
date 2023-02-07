@@ -45,6 +45,8 @@
 </template>
 <script>
 import { v4 as uuidv4 } from 'uuid'
+import { useEventListStore } from '@/stores/modules/useEventListStore.js'
+import { useUserStore } from '@/stores/modules/user.js'
 
 export default {
   data() {
@@ -68,6 +70,8 @@ export default {
         time: '',
         organizer: '',
       },
+      eventListStore: useEventListStore(),
+      useUserStore: useUserStore(),
     }
   },
   methods: {
@@ -80,11 +84,11 @@ export default {
       const event = {
         ...this.event,
         id: uuidv4(),
-        organizer: this.$store.state.user.userInfo.name,
+        organizer: this.useUserStore.userInfo.name,
       }
       console.log(event)
-      this.$store
-        .dispatch('createEvent', event)
+      this.eventListStore
+        .createEvent(event)
         .then(() => {
           this.$router.push({
             name: 'EventDetails',

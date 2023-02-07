@@ -13,6 +13,8 @@
 </template>
 
 <script>
+import { useEventListStore } from '@/stores/modules/useEventListStore.js'
+
 export default {
   name: 'event-layout',
   props: {
@@ -20,6 +22,7 @@ export default {
   },
   data() {
     return {
+      eventListstore: useEventListStore(),
       // event: null,
     }
   },
@@ -43,8 +46,8 @@ export default {
         }
       })
   }, */
-  created() {
-    this.$store.dispatch('fetchEvent', this.id).catch((error) => {
+  mounted() {
+    this.eventListstore.fetchEvent(this.id).catch((error) => {
       this.$router.push({
         name: 'ErrorDisplay',
         params: { error: error },
@@ -53,7 +56,7 @@ export default {
   },
   computed: {
     event() {
-      return this.$store.state.event
+      return this.eventListstore.event
     },
   },
 }
