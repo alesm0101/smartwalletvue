@@ -4,6 +4,7 @@
   <div class="form-container">
     <form @submit.prevent="onSubmit">
       <label>Select a category: </label>
+      <p>Organized by: {{ useUserStore.userInfo.name }}</p>
       <select v-model="event.category">
         <option
           v-for="option in categories"
