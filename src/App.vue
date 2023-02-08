@@ -11,6 +11,18 @@ const GStore = inject('GStore', '')
     <header>
       <div class="wrapper">
         <nav id="nav">
+          <!--      
+          TEST ROUTING CUSTOM CLASS
+          <router-link
+            :to="{ name: 'about' }"
+            custom
+            v-slot="{ href, navigate, isActive }"
+          >
+            <li :class="{ active: isActive }">
+              <a :href="href" @click="navigate"> About </a>
+            </li>
+          </router-link> -->
+
           <RouterLink to="/">Event</RouterLink> |
           <RouterLink :to="{ name: 'about' }">About</RouterLink> |
           <router-link :to="{ name: 'EventCreate' }">Create Event</router-link>

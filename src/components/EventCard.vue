@@ -5,12 +5,18 @@ const props = defineProps({
     required: true,
   },
 })
+
+// TEST EMIT
+const emit = defineEmits(['customChange'])
+const actionEmit = () => {
+  emit('customChange', 'emit custom change')
+}
 </script>
 
 <template>
   <RouterLink :to="{ name: 'EventDetails', params: { id: props.event.id } }">
     <div class="event-card">
-      <h2>{{ props.event.title }}</h2>
+      <h2 @click="actionEmit">{{ props.event.title }}</h2>
       <span>@{{ props.event.time }} on {{ props.event.date }}</span>
     </div>
   </RouterLink>

@@ -36,6 +36,10 @@ const getEvents = () => {
   })
   console.log('page', typeof props.page)
 }
+// TEST EMIT
+const customChange = (v) => {
+  console.log(v)
+}
 
 watch(
   () => props.page,
@@ -49,7 +53,7 @@ watch(
 <template>
   <h1>Events For Good {{ page }}</h1>
   <div class="events">
-    <EventCard v-for="event in events" :key="event.id" :event="event" />
+    <EventCard v-for="event in events" :key="event.id" :event="event" @customChange="customChange"/>
     <router-link
       :to="{ name: 'event-list', query: { page: page - 1 } }"
       rel="prev"
