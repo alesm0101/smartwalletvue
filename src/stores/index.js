@@ -79,6 +79,7 @@ export default createStore({
     doneEventssCount (state, getters) {
       return getters.doneEvents.length
     },
+    // params
     getEventById: (state) => (id) => {
       return state.events.find(event => event.id === id)
     } */

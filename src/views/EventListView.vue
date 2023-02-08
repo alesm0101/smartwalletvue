@@ -1,5 +1,6 @@
 <script>
 import EventCard from '@/components/EventCard.vue'
+import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'EventList',
@@ -20,9 +21,11 @@ export default {
     }
   },
   computed: {
-    events() {
-      return this.$store.state.events
-    },
+    // TEST mapState
+    // events() {
+    //   return this.$store.state.events
+    // },
+    ...mapState({ events: 'events' }), // ...mapState(['events']),
     hasNextPage() {
       // First, calculate total pages   // 2 is events per page
       const totalPages = Math.ceil(this.$store.state.totalEvents / 2)
@@ -34,8 +37,11 @@ export default {
     this.getEvents()
   },
   methods: {
+    // TEST mapActions
+    ...mapActions({ storeFetchEvent: 'fetchEvents' }),
     getEvents() {
-      this.$store.dispatch('fetchEvents', this.page).catch((error) => {
+      this.storeFetchEvent(this.page).catch((error) => {
+        // this.$store.dispatch('fetchEvents', this.page).catch((error) => {
         this.$router.push({
           name: 'ErrorDisplay',
           params: { error: error },

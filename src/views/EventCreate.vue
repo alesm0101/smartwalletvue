@@ -25,6 +25,7 @@
       <input
         v-model="event.description"
         type="text"
+        ref="inputdesc"
         placeholder="Description"
       />
 
@@ -35,11 +36,10 @@
 
       <h3>When is your event?</h3>
       <label>Date</label>
-      <input v-model="event.date" type="text" placeholder="Date" />
+      <input v-model="event.date" type="date" placeholder="Date" />
 
       <label>Time</label>
-      <input v-model="event.time" type="text" placeholder="Time" />
-
+      <input v-model="event.time" type="time" placeholder="Time" />
       <button type="submit">Submit</button>
     </form>
   </div>
@@ -65,7 +65,7 @@ export default {
         title: '',
         description: '',
         location: '',
-        date: '',
+        date: '', // new Date().toJSON().slice(0, 10),
         time: '',
         organizer: '',
       },
@@ -99,6 +99,10 @@ export default {
           })
         })
     },
+  },
+  mounted() {
+    // TEST using ref
+    this.$refs.inputdesc.focus()
   },
   // computed: {
   //   user() {
