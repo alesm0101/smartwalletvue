@@ -12,18 +12,21 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'event-layout',
-  props: {
-    id: { required: true },
-  },
-  data() {
-    return {
-      // event: null,
-    }
-  },
-  /* TODO erros
+<script setup>
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+import { onMounted, computed } from 'vue'
+
+const store = useStore()
+const router = useRouter()
+
+const props = defineProps({
+  id: { required: true },
+})
+
+const event = computed(() => store.state.event)
+
+/* TODO erros
   created() {
     EventServices.getEvent(this.id)
       .then((response) => {
@@ -43,18 +46,14 @@ export default {
         }
       })
   }, */
-  created() {
-    this.$store.dispatch('fetchEvent', this.id).catch((error) => {
-      this.$router.push({
-        name: 'ErrorDisplay',
-        params: { error: error },
-      })
+
+onMounted(() => {
+  store.dispatch('fetchEvent', props.id).catch((error) => {
+    router.push({
+      name: 'ErrorDisplay',
+      params: { error: error },
     })
-  },
-  computed: {
-    event() {
-      return this.$store.state.event
-    },
-  },
-}
+  })
+})
+
 </script>

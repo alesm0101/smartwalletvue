@@ -4,7 +4,7 @@
   <div class="form-container">
     <form @submit.prevent="onSubmit">
       <label>Select a category: </label>
-      <p>Organized by: {{ $store.state.user.userInfo.name }}</p>
+      <p>Organized by: {{ store.state.user.userInfo.name }}</p>
       <select v-model="event.category">
         <option
           v-for="option in categories"
@@ -44,66 +44,55 @@
     </form>
   </div>
 </template>
-<script>
+<script setup>
 import { v4 as uuidv4 } from 'uuid'
+import { reactive } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 
-export default {
-  data() {
-    return {
-      categories: [
-        'sustainability',
-        'nature',
-        'animal welfare',
-        'housing',
-        'education',
-        'food',
-        'community',
-      ],
-      event: {
-        id: '',
-        category: '',
-        title: '',
-        description: '',
-        location: '',
-        date: '',
-        time: '',
-        organizer: '',
-      },
-    }
-  },
-  methods: {
-    // onSubmit() {
-    //   this.event.id = uuidv4()
-    //   this.event.organizer = this.$store.state.user.userInfo.name
-    //   console.log('Event:', this.event)
-    // },
-    onSubmit() {
-      const event = {
-        ...this.event,
-        id: uuidv4(),
-        organizer: this.$store.state.user.userInfo.name,
-      }
-      console.log(event)
-      this.$store
-        .dispatch('createEvent', event)
-        .then(() => {
-          this.$router.push({
-            name: 'EventDetails',
-            params: { id: event.id },
-          })
-        })
-        .catch((error) => {
-          this.$router.push({
-            name: 'ErrorDisplay',
-            params: { error: error },
-          })
-        })
-    },
-  },
-  // computed: {
-  //   user() {
-  //     return this.$store.state.user.userInfo.name
-  //   },
-  // },
+const store = useStore()
+const router = useRouter()
+
+const categories = [
+  'sustainability',
+  'nature',
+  'animal welfare',
+  'housing',
+  'education',
+  'food',
+  'community',
+]
+
+const event = reactive({
+  id: '',
+  category: '',
+  title: '',
+  description: '',
+  location: '',
+  date: '',
+  time: '',
+  organizer: '',
+})
+const onSubmit = () => {
+  const event = {
+    ...event,
+    id: uuidv4(),
+    organizer: store.state.user.userInfo.name,
+  }
+  console.log(event)
+  store
+    .dispatch('createEvent', event)
+    .then(() => {
+      router.push({
+        name: 'EventDetails',
+        params: { id: event.id },
+      })
+    })
+    .catch((error) => {
+      router.push({
+        name: 'ErrorDisplay',
+        params: { error: error },
+      })
+    })
 }
 </script>

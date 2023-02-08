@@ -1,7 +1,6 @@
-<script>
-export default {
-  inject: ['GStore'],
-}
+<script setup>
+import { inject } from 'vue'
+const GStore = inject('GStore', '')
 </script>
 
 <template>

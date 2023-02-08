@@ -1,10 +1,8 @@
 <template>
   <h4>Oops! There was an error:</h4>
-  <p>{{ error }}</p>
+  <p>{{ props.error }}</p>
 </template>
 
-<script>
-export default {
-  props: ['error'],
-}
+<script setup>
+const props = defineProps(['error'])
 </script>

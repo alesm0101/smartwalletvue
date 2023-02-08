@@ -87,8 +87,8 @@ const router = createRouter({
       path: '/error/:error',
       name: 'ErrorDisplay',
       props: true,
-      component: ErrorDisplay
-    }
+      component: ErrorDisplay,
+    },
   ],
 })
 

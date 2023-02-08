@@ -1,56 +1,49 @@
-<script>
+<script setup>
+import { useRouter } from 'vue-router'
 import EventCard from '@/components/EventCard.vue'
+import { useStore } from 'vuex'
+import { watch, onMounted, computed } from 'vue'
 
-export default {
-  name: 'EventList',
-  components: {
-    EventCard,
+const router = useRouter()
+const store = useStore()
+
+const props = defineProps({
+  page: {
+    // from routing
+    type: Number,
+    required: true,
   },
-  // props: [ 'page' ],
-  props: {
-    page: {
-      // from routing
-      type: Number,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      // events: null
-    }
-  },
-  computed: {
-    events() {
-      return this.$store.state.events
-    },
-    hasNextPage() {
-      // First, calculate total pages   // 2 is events per page
-      const totalPages = Math.ceil(this.$store.state.totalEvents / 2)
-      // Then check to see if the current page is less than the total pages.
-      return this.page < totalPages
-    },
-  },
-  mounted() {
-    this.getEvents()
-  },
-  methods: {
-    getEvents() {
-      this.$store.dispatch('fetchEvents', this.page).catch((error) => {
-        this.$router.push({
-          name: 'ErrorDisplay',
-          params: { error: error },
-        })
-      })
-      console.log('page', typeof this.page)
-    },
-  },
-  watch: {
-    page(value, oldValue) {
-      console.log(value, oldValue)
-      this.getEvents()
-    },
-  },
+})
+
+const events = computed(() => store.state.events)
+const hasNextPage = computed(() => {
+  // First, calculate total pages   // 2 is events per page
+  const totalPages = Math.ceil(store.state.totalEvents / 2)
+  // Then check to see if the current page is less than the total pages.
+  return props.page < totalPages
+})
+
+onMounted(() => {
+  getEvents()
+})
+
+const getEvents = () => {
+  store.dispatch('fetchEvents', props.page).catch((error) => {
+    router.push({
+      name: 'ErrorDisplay',
+      params: { error: error },
+    })
+  })
+  console.log('page', typeof props.page)
 }
+
+watch(
+  () => props.page,
+  (value, oldValue) => {
+    console.log(value, oldValue)
+    getEvents()
+  }
+)
 </script>
 
 <template>

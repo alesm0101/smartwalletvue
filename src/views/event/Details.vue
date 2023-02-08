@@ -4,22 +4,23 @@
   <button @click="deleteEvent">Delete</button>
 </template>
 
-<script>
-export default {
-  name: 'event-details',
-  props: ['event'],
-  methods: {
-    deleteEvent() {
-      this.$store
-        .dispatch('deleteEvent', this.event.id)
-        .then(() => {
-          console.log('deleted event')
-          // TODO REDIRECT TO HOME
-        })
-        .catch((error) => {
-          console.log('catch error', error)
-        })
-    },
+<script setup>
+defineProps({
+  event: {
+    type: Object,
+    required: true,
   },
+})
+
+const deleteEvent = () => {
+  this.$store
+    .dispatch('deleteEvent', this.event.id)
+    .then(() => {
+      console.log('deleted event')
+      // TODO REDIRECT TO HOME
+    })
+    .catch((error) => {
+      console.log('catch error', error)
+    })
 }
 </script>
