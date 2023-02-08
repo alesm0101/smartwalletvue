@@ -26,6 +26,7 @@
         v-model="event.description"
         type="text"
         placeholder="Description"
+        ref="inputdesc"
       />
 
       <h3>Where is your event?</h3>
@@ -35,10 +36,10 @@
 
       <h3>When is your event?</h3>
       <label>Date</label>
-      <input v-model="event.date" type="text" placeholder="Date" />
+      <input v-model="event.date" type="date" placeholder="Date" />
 
       <label>Time</label>
-      <input v-model="event.time" type="text" placeholder="Time" />
+      <input v-model="event.time" type="time" placeholder="Time" />
 
       <button type="submit">Submit</button>
     </form>
@@ -46,13 +47,14 @@
 </template>
 <script setup>
 import { v4 as uuidv4 } from 'uuid'
-import { reactive } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
 const store = useStore()
 const router = useRouter()
-
+// TEST TEMPLATE REF
+const inputdesc = ref(null) // need to match const name with ref
 const categories = [
   'sustainability',
   'nature',
@@ -73,6 +75,11 @@ const event = reactive({
   time: '',
   organizer: '',
 })
+
+onMounted(() => {
+  inputdesc.value.focus()
+})
+
 const onSubmit = () => {
   const event = {
     ...event,
